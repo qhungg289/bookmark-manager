@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         Auth::login($user, true);
 
-        return redirect()->route('home');
+        return redirect()->route('bookmarks.index');
     }
 
     public function login(Request $request)
@@ -37,7 +37,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+            return redirect()->intended('bookmarks');
         }
 
         return back()->withErrors([
