@@ -9,7 +9,7 @@ class Bookmark extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['url', 'name', 'icon'];
+    protected $fillable = ['url', 'name', 'icon', 'folder_id'];
 
     public function user()
     {
