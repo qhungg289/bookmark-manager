@@ -9,7 +9,7 @@
         <div class="flex flex-col">
             <label class="font-medium text-slate-600" for="name">Name</label>
             <input
-                class="mt-1 border border-slate-300 focus:border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 rounded"
+                class="mt-1 border border-slate-300 focus:border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 rounded shadow"
                 type="text" name="name" id="name" value="{{ old('name') }}" placeholder="John Doe">
             @error('name')
                 <small class="mt-1 text-sm text-rose-600">{{ $message }}</small>
@@ -19,7 +19,7 @@
         <div class="flex flex-col">
             <label class="font-medium text-slate-600" for="email">Email</label>
             <input
-                class="mt-1 border border-slate-300 focus:border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 rounded"
+                class="mt-1 border border-slate-300 focus:border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 rounded shadow"
                 type="email" name="email" id="email" value="{{ old('email') }}"
                 placeholder="email@example.com">
             @error('email')
@@ -31,7 +31,7 @@
             <div class="flex flex-col">
                 <label class="font-medium text-slate-600" for="password">Password</label>
                 <input
-                    class="mt-1 border border-slate-300 focus:border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 rounded"
+                    class="mt-1 border border-slate-300 focus:border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 rounded shadow"
                     type="password" name="password" id="password" placeholder="Minimum 8 characters">
                 @error('password')
                     <small class="mt-1 text-sm text-rose-600">{{ $message }}</small>
@@ -41,7 +41,7 @@
             <div class="flex flex-col">
                 <label class="font-medium text-slate-600" for="password_confirmation">Confirm password</label>
                 <input
-                    class="mt-1 border border-slate-300 focus:border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 rounded"
+                    class="mt-1 border border-slate-300 focus:border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 rounded shadow"
                     type="password" name="password_confirmation" id="password_confirmation">
                 @error('password_confirmation')
                     <small class="mt-1 text-sm text-rose-600">{{ $message }}</small>

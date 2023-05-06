@@ -9,7 +9,7 @@
         <div class="flex flex-col">
             <label class="font-medium text-slate-600" for="email">Email</label>
             <input
-                class="mt-1 border border-slate-300 focus:border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 rounded"
+                class="mt-1 border border-slate-300 focus:border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 rounded shadow"
                 type="email" name="email" id="email" value="{{ old('email') }}" placeholder="email@example.com">
             @error('email')
                 <small class="mt-1 text-sm text-rose-600">{{ $message }}</small>
@@ -19,7 +19,7 @@
         <div class="flex flex-col">
             <label class="font-medium text-slate-600" for="password">Password</label>
             <input
-                class="mt-1 border border-slate-300 focus:border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 rounded"
+                class="mt-1 border border-slate-300 focus:border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 rounded shadow"
                 type="password" name="password" id="password">
             @error('password')
                 <small class="mt-1 text-sm text-rose-600">{{ $message }}</small>
@@ -28,7 +28,7 @@
 
         <div class="flex items-center gap-1">
             <input
-                class="rounded text-slate-800 focus:border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400"
+                class="rounded text-slate-800 border-slate-300 focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 shadow"
                 type="checkbox" name="remember" id="remember">
             <label class="font-medium text-slate-600" for="remember">Remember me</label>
         </div>
