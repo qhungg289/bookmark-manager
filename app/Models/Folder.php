@@ -9,7 +9,7 @@ class Folder extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'is_private'];
+    protected $fillable = ['name', 'is_public'];
 
     public function user()
     {
