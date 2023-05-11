@@ -16,8 +16,18 @@ class BookmarkController extends Controller
      */
     public function index(Request $request)
     {
-        $folders = $request->user()->folders()->with('bookmarks')->latest()->get();
-        $bookmarks = $request->user()->bookmarks()->doesntHave('folder')->with('tags')->latest()->get();
+        $folders = $request->user()
+            ->folders()
+            ->with('bookmarks')
+            ->latest()
+            ->get();
+
+        $bookmarks = $request->user()
+            ->bookmarks()
+            ->doesntHave('folder')
+            ->with('tags')
+            ->latest()
+            ->get();
 
         return view('bookmarks.index', [
             'folders' => $folders,
@@ -30,7 +40,6 @@ class BookmarkController extends Controller
      */
     public function create()
     {
-        return view('bookmarks.create');
     }
 
     /**
@@ -73,9 +82,8 @@ class BookmarkController extends Controller
                 $createdTags->push($tag);
             }
 
-            foreach ($createdTags as $tag) {
-                $bookmark->tags()->attach($tag->id);
-            }
+            $tagsId = $createdTags->map(fn ($tag, $index) => $tag->id);
+            $bookmark->tags()->attach($tagsId);
         }
 
         return redirect()->route('bookmarks.index');
@@ -86,7 +94,13 @@ class BookmarkController extends Controller
      */
     public function show(Bookmark $bookmark)
     {
-        //
+        $this->authorize('view', $bookmark);
+
+        $bookmark->load('tags');
+
+        return view('bookmarks.show', [
+            'bookmark' => $bookmark
+        ]);
     }
 
     /**
@@ -94,15 +108,61 @@ class BookmarkController extends Controller
      */
     public function edit(Bookmark $bookmark)
     {
-        //
+        $bookmark->load('tags');
+
+        $tagsName = $bookmark->tags->map(fn ($tag, $index) => $tag->name);
+        $tags = $tagsName->join(',');
+
+        return view('bookmarks.edit', [
+            'bookmark' => $bookmark,
+            'tags' => $tags
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Bookmark $bookmark)
+    public function update(Request $request, Bookmark $bookmark, DOMDocument $doc)
     {
-        //
+        $this->authorize('update', $bookmark);
+
+        $validated = $request->validate([
+            'name' => ['nullable', 'string'],
+            'url' => ['required', 'url'],
+            'tags' => ['nullable', 'string']
+        ]);
+
+        $name = $validated['name'];
+
+        if (!isset($name)) {
+            $response = Http::withOptions(['verify' => false])->get($validated['url']);
+            $e = libxml_use_internal_errors(true);
+            $doc->loadHTML($response->body());
+            libxml_use_internal_errors($e);
+            $name = $doc->getElementsByTagName('title')->item(0)->nodeValue;
+        }
+
+        $bookmark->name = $name;
+        $bookmark->url = $validated['url'];
+        $bookmark->icon = 'https://icon.horse/icon/' . parse_url($validated['url'])['host'];
+        $bookmark->save();
+
+        $formTags = Str::of($validated['tags'])->explode(',');
+        $createdTags = collect([]);
+
+        foreach ($formTags as $tagName) {
+            $tag = Tag::firstOrCreate([
+                'name' => $tagName,
+                'user_id' => $request->user()->id
+            ]);
+
+            $createdTags->push($tag);
+        }
+
+        $tagsId = $createdTags->map(fn ($tag, $index) => $tag->id);
+        $bookmark->tags()->sync($tagsId);
+
+        return redirect()->route('bookmarks.index');
     }
 
     /**
@@ -110,6 +170,11 @@ class BookmarkController extends Controller
      */
     public function destroy(Bookmark $bookmark)
     {
-        //
+        $this->authorize('delete', $bookmark);
+
+        $bookmark->tags()->detach();
+        $bookmark->delete();
+
+        return redirect()->route('bookmarks.index');
     }
 }

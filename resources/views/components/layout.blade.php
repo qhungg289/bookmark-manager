@@ -74,7 +74,7 @@
         <div class="text-4xl bg-gray-950 text-gray-50 h-full pt-6" x-on:click.outside="open = false">
             <div class="container max-w-4xl space-y-4">
                 @auth
-                    <a href="" class="block py-2 hover:underline">{{ auth()->user()->email }}</a>
+                    <a href="{{ route('profiles.show') }}" class="block py-2 hover:underline">{{ auth()->user()->email }}</a>
                     <form action="/logout" method="post">
                         @csrf
                         <button class="w-full text-left py-2 hover:underline" type="submit">Logout</button>
