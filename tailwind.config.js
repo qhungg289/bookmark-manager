@@ -6,10 +6,14 @@ module.exports = {
         "./resources/**/*.vue",
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                nunito: ["Nunito", "sans-serif"],
+            },
+        },
         container: {
             center: true,
-            padding: "2rem",
+            padding: "1rem",
         },
     },
     plugins: [require("@tailwindcss/forms")],
