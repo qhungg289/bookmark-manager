@@ -16,18 +16,23 @@ class BookmarkController extends Controller
      */
     public function index(Request $request)
     {
-        $folders = $request->user()
-            ->folders()
-            ->with('bookmarks')
-            ->latest()
-            ->get();
+        $sortingOrder = $request->query('sort');
 
-        $bookmarks = $request->user()
-            ->bookmarks()
-            ->doesntHave('folder')
-            ->with('tags')
-            ->latest()
-            ->get();
+        $folders = match ($sortingOrder) {
+            'name_asc' => $request->user()->folders()->with('bookmarks')->orderBy('name', 'asc')->get(),
+            'name_desc' => $request->user()->folders()->with('bookmarks')->orderBy('name', 'desc')->get(),
+            'created_latest' => $request->user()->folders()->with('bookmarks')->latest()->get(),
+            'created_oldest' => $request->user()->folders()->with('bookmarks')->oldest()->get(),
+            default => $request->user()->folders()->with('bookmarks')->latest()->get(),
+        };
+
+        $bookmarks = match ($sortingOrder) {
+            'name_asc' => $request->user()->bookmarks()->doesntHave('folder')->with('tags')->orderBy('name', 'asc')->get(),
+            'name_desc' => $request->user()->bookmarks()->doesntHave('folder')->with('tags')->orderBy('name', 'desc')->get(),
+            'created_latest' => $request->user()->bookmarks()->doesntHave('folder')->with('tags')->latest()->get(),
+            'created_oldest' => $request->user()->bookmarks()->doesntHave('folder')->with('tags')->oldest()->get(),
+            default => $request->user()->bookmarks()->doesntHave('folder')->with('tags')->latest()->get(),
+        };
 
         return view('bookmarks.index', [
             'folders' => $folders,
