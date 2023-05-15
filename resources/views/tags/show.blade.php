@@ -1,10 +1,11 @@
 <x-layout>
-    <x-slot name="title">{{ $tag->name }}</x-slot>
+    <x-slot name="title">#{{ $tag->name }}</x-slot>
 
-    <h1 class="text-4xl font-bold">{{ $tag->name }}</h1>
+    <x-heading>#{{ $tag->name }}</x-heading>
 
-    <p class="text-lg font-medium border-b border-gray-300 py-4 mt-8">Bookmarks</p>
-    @foreach ($tag->bookmarks as $bookmark)
-        <x-bookmark :bookmark="$bookmark" />
-    @endforeach
+    <div class="my-8 divide-y divide-gray-200">
+        @foreach ($tag->bookmarks as $bookmark)
+            <x-bookmark :bookmark="$bookmark" />
+        @endforeach
+    </div>
 </x-layout>

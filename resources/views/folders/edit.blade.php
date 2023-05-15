@@ -1,35 +1,35 @@
 <x-layout>
     <x-slot name="title">Edit {{ $folder->name }}</x-slot>
 
-    <h1 class="text-4xl font-bold">Edit {{ $folder->name }}</h1>
+    <x-heading>Edit {{ $folder->name }} folder</x-heading>
 
     <form action="{{ route('folders.update', ['folder' => $folder] ) }}" method="post" class="mt-8 flex flex-col gap-4">
         @csrf
         @method('PUT')
 
-        <div class="grid grid-cols-2">
-            <div class="flex flex-col">
+        <div class="grid">
+            <div class="flex items-center gap-1">
                 <label class="font-medium text-gray-600" for="name">Name</label>
-                <small class="text-xs text-gray-400">Required</small>
+                <small class="text-xs text-gray-400">(Required)</small>
             </div>
             <div class="flex flex-col">
-                <input class="border border-gray-300 focus:border-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 rounded shadow-sm" type="text" name="name" id="name" value="{{ old('name', $folder->name) }}">
+                <x-forms.input type="text" name="name" id="name" value="{{ old('name', $folder->name) }}" />
                 @error('name')
                     <small class="mt-1 text-sm text-rose-600">{{ $message }}</small>
                 @enderror
             </div>
         </div>
 
-        <div class="grid grid-cols-2">
-            <div class="flex flex-col">
+        <div class="grid">
+            <div class="flex items-center gap-1">
                 <label class="font-medium text-gray-600" for="is_private">Public</label>
-                <small class="text-xs text-gray-400 max-w-[25ch]">Determine if this folder is shareable or not</small>
+                <small class="text-xs text-gray-400">Determine if this folder is shareable or not</small>
             </div>
             <div class="flex flex-col">
                 <label
                     x-data="{ isChecked: @if (boolval($folder->is_public)) {{ "true" }} @else {{ "false" }} @endif }"
                     for="is_public"
-                    class="relative h-8 w-14 cursor-pointer"
+                    class="relative mt-1 h-8 w-14 cursor-pointer"
                 >
                     <input
                         x-model="isChecked"
@@ -37,11 +37,10 @@
                         id="is_public"
                         name="is_public"
                         class="peer sr-only"
-                        @checked(boolval($folder->is_public))
                     />
 
                     <span
-                        :class="{ 'bg-gray-300': !isChecked, 'bg-green-500': isChecked }"
+                        :class="{ 'bg-gray-200': !isChecked, 'bg-teal-500': isChecked }"
                         class="absolute inset-0 rounded-full transition"
                     ></span>
 
@@ -53,41 +52,41 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-2">
-            <div class="flex flex-col">
+        <div class="grid">
+            <div class="flex items-center gap-1">
                 <label class="font-medium text-gray-600" for="bookmarks">Bookmarks</label>
             </div>
-            <div class="border border-gray-300 focus:border-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 rounded shadow-sm px-4 h-56 overflow-auto" x-data="bookmarks">
+            <div class="bg-gray-100 rounded px-4 mt-1 h-56 overflow-auto" x-data="bookmarks">
                 <input type="hidden" name="bookmarks" x-bind:value="bookmarksFormValue">
 
                 @foreach ($folder->bookmarks as $bookmark)
-                    <div class="flex items-center gap-2">
-                        <input class="rounded text-gray-800 p-2 border-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400" type="checkbox" checked value="{{ $bookmark->id }}" x-on:change="handleCheck($el)" x-init="handleCheck($el)">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input class="rounded bg-gray-100 text-teal-600 border-none outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-400 transition-all" type="checkbox" checked value="{{ $bookmark->id }}" x-on:change="handleCheck($el)" x-init="handleCheck($el)">
                         <span class="flex items-center gap-2 my-4 group">
                             <img class="w-5" src="{{ $bookmark->icon }}" alt="">
                             <span class="truncate max-w-[30ch] relative">
                                 {{ $bookmark->name }}
                             </span>
                         </span>
-                    </div>
+                    </label>
                 @endforeach
 
                 @foreach ($bookmarks as $bookmark)
-                    <div class="flex items-center gap-2">
-                        <input class="rounded text-gray-800 p-2 border-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400" type="checkbox" value="{{ $bookmark->id }}" x-on:change="handleCheck($el)">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input class="rounded bg-gray-100 text-teal-600 border-none outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-400 transition-all" type="checkbox" value="{{ $bookmark->id }}" x-on:change="handleCheck($el)" x-init="handleCheck($el)">
                         <span class="flex items-center gap-2 my-4 group">
                             <img class="w-5" src="{{ $bookmark->icon }}" alt="">
                             <span class="truncate max-w-[30ch] relative">
                                 {{ $bookmark->name }}
                             </span>
                         </span>
-                    </div>
+                    </label>
                 @endforeach
             </div>
         </div>
 
-        <div class="flex justify-end gap-2">
-            <button class="basis-1/6 py-2 px-4 rounded border border-gray-950 bg-gray-950 text-gray-50 shadow-sm" type="submit">Save</button>
+        <div class="flex gap-2">
+            <button class="basis-1/6 py-2 px-4 rounded-md bg-teal-600 hover:opacity-80 text-gray-50 transition-all" type="submit">Save</button>
         </div>
     </form>
 

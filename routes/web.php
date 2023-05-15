@@ -34,6 +34,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/search', SearchController::class)->name('search');
 
     Route::controller(ProfileController::class)->group(function () {
-        Route::get('/profile', 'show')->name('profiles.show');
+        Route::get('/profile/{user}', 'show')->name('profiles.show');
+        Route::get('/profile/{user}/edit', 'edit')->name('profiles.edit');
+        Route::put('/profile/{user}/update', 'update')->name('profiles.update');
+        Route::get('/profile/{user}/change-password', 'editPassword')->name('profiles.edit-password');
+        Route::put('/profile/{user}/change-password', 'updatePassword')->name('profiles.update-password');
     });
 });
