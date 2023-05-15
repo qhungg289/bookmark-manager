@@ -63,7 +63,7 @@
                                 <small class="text-xs text-gray-400">(Optional) - Write out the name for a single tag then press <kbd class="p-[0.15rem] bg-gray-400 text-gray-100 rounded">Space</kbd> to create it</small>
                             </div>
                             <div class="flex flex-col relative">
-                                <x-forms.input type="text" name="tagsInput" id="tagsInput" x-model="tagsInput" x-on:keyup.space="newTag" />
+                                <x-forms.input type="text" name="tagsInput" id="tagsInput" x-model="tagsInput" x-on:keyup.space="newTag" x-on:keyup.enter.prevent="" />
                                 <button x-show="tagsInput.length > 0" x-on:click.prevent="newTag" class="absolute right-2 top-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-teal-600">
                                         <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z" clip-rule="evenodd" />
