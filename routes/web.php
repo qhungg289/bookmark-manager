@@ -28,9 +28,9 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::resource('/bookmarks', BookmarkController::class);
-    Route::resource('/folders', FolderController::class);
-    Route::resource('/tags', TagController::class);
+    Route::resource('/bookmarks', BookmarkController::class)->except(['create']);
+    Route::resource('/folders', FolderController::class)->except(['index', 'create']);
+    Route::resource('/tags', TagController::class)->only(['show']);
     Route::get('/search', SearchController::class)->name('search');
 
     Route::controller(ProfileController::class)->group(function () {
