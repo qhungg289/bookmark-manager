@@ -60,7 +60,7 @@
                         <div class="grid" x-data="tags">
                             <div class="flex items-center gap-1">
                                 <label class="font-medium text-gray-600" for="tagsInput">Tags</label>
-                                <small class="text-xs text-gray-400">(Optional) - Write out the name for a single tag then press <kbd class="p-[0.15rem] bg-gray-400 text-gray-100 rounded">Space</kbd> to create it</small>
+                                <small class="text-xs text-gray-400">(Optional) - Write out the name for a single tag then press <kbd class="p-[0.15rem] bg-gray-400 text-gray-100 rounded">Space</kbd> or <kbd class="p-[0.15rem] bg-gray-400 text-gray-100 rounded">Enter</kbd> to create it</small>
                             </div>
                             <div class="flex flex-col relative">
                                 <x-forms.input type="text" name="tagsInput" id="tagsInput" x-model="tagsInput" x-on:keyup.space="newTag" x-on:keyup.enter.prevent="" />
