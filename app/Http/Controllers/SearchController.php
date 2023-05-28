@@ -20,8 +20,20 @@ class SearchController extends Controller
                 ->orWhere('name', 'like', "%$searchString%")
                 ->get();
 
+            $folders = $request->user()
+                ->folders()
+                ->where('name', 'like', "%$searchString%")
+                ->get();
+
+            $tags = $request->user()
+                ->tags()
+                ->where('name', 'like', "%$searchString%")
+                ->get();
+
             return view('search', [
                 'bookmarks' => $bookmarks,
+                'folders' => $folders,
+                'tags' => $tags,
                 'searchString' => $searchString
             ]);
         }

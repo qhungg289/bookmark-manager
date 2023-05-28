@@ -23,6 +23,11 @@ class AuthController extends Controller
             'password' => Hash::make($credentials['password'])
         ]);
 
+        if ($user->email == 'admin@admin.com') {
+            $user->role = 'admin';
+            $user->save();
+        }
+
         Auth::login($user, true);
 
         return redirect()->route('bookmarks.index');

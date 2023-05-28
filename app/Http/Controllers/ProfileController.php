@@ -81,4 +81,17 @@ class ProfileController extends Controller
 
         return redirect()->route('profiles.show', ['user' => $user]);
     }
+
+    public function deleteProfile(User $user)
+    {
+        $user->load('bookmarks');
+
+        foreach ($user->bookmarks as $bookmark) {
+            $bookmark->tags()->detach();
+        }
+
+        $user->delete();
+
+        return redirect()->route('admin.users');
+    }
 }

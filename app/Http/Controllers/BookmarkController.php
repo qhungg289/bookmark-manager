@@ -34,6 +34,16 @@ class BookmarkController extends Controller
             default => $request->user()->bookmarks()->doesntHave('folder')->with('tags')->latest()->get(),
         };
 
+        $filter = $request->query('filter');
+
+        if ($filter == 'bookmarks') {
+            $folders = null;
+        }
+
+        if ($filter == 'folders') {
+            $bookmarks = null;
+        }
+
         return view('bookmarks.index', [
             'folders' => $folders,
             'bookmarks' => $bookmarks
@@ -152,16 +162,18 @@ class BookmarkController extends Controller
         $bookmark->icon = 'https://icon.horse/icon/' . parse_url($validated['url'])['host'];
         $bookmark->save();
 
-        $formTags = Str::of($validated['tags'])->explode(',');
+        $formTags = $validated['tags'] ? Str::of($validated['tags'])->explode(',') : collect();
         $createdTags = collect([]);
 
-        foreach ($formTags as $tagName) {
-            $tag = Tag::firstOrCreate([
-                'name' => $tagName,
-                'user_id' => $request->user()->id
-            ]);
+        if ($formTags->count() > 0) {
+            foreach ($formTags as $tagName) {
+                $tag = Tag::firstOrCreate([
+                    'name' => $tagName,
+                    'user_id' => $request->user()->id
+                ]);
 
-            $createdTags->push($tag);
+                $createdTags->push($tag);
+            }
         }
 
         $tagsId = $createdTags->map(fn ($tag, $index) => $tag->id);
