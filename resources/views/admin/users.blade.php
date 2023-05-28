@@ -13,7 +13,7 @@
     <div class="my-8 divide-y divide-gray-200">
         <table class="table-auto border-collapse w-full rounded-md overflow-hidden">
             <thead>
-                <tr class="bg-teal-500 text-white">
+                <tr class="bg-gray-300 text-gray-600">
                     <th class="p-4 border-b border-gray-200 font-bold text-left">Name</th>
                     <th class="p-4 border-b border-gray-200 font-bold text-left">Email</th>
                     <th class="p-4 border-b border-gray-200 font-bold text-right">Joined</th>
@@ -22,23 +22,23 @@
             </thead>
             <tbody>
                 @foreach ($users as $user)
-                    @if ($user->role != 'admin')
-                        <tr class="even:bg-gray-100 text-gray-500">
-                            <td class="p-4 text-left">
-                                <a href="{{ route('profiles.show', ['user' => $user]) }}" class="hover:underline">{{ $user->name }}</a>
-                            </td>
-                            <td class="p-4 text-left">{{ $user->email }}</td>
-                            <td class="p-4 text-right">{{ Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</td>
-                            <td class="p-4 text-right">
+                    <tr class="even:bg-gray-100 text-gray-500">
+                        <td class="p-4 text-left">
+                            <a href="{{ route('profiles.show', ['user' => $user]) }}" class="hover:underline">{{ $user->name }}</a>
+                        </td>
+                        <td class="p-4 text-left">{{ $user->email }}</td>
+                        <td class="p-4 text-right">{{ Carbon\Carbon::parse($user->created_at)->diffForHumans() }}</td>
+                        <td class="p-4 text-right">
+                            @if ($user->role != 'admin')
                                 <form action="{{ route('profiles.delete', ['user' => $user]) }}" method="post">
                                     @method('DELETE')
                                     @csrf
 
                                     <button class="text-red-500" type="submit">Delete</button>
                                 </form>
-                            </td>
-                        </tr>
-                    @endif
+                            @endif
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>

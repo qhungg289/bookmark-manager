@@ -24,7 +24,7 @@ class AdminController extends Controller
         $tagsCount = Tag::count();
 
         $bookmarksChartOptions = [
-            'chart_title' => 'Bookmarks by days',
+            'chart_title' => 'New bookmarks by days',
             'chart_type' => 'bar',
             'report_type' => 'group_by_date',
             'model' => 'App\Models\Bookmark',
@@ -35,7 +35,7 @@ class AdminController extends Controller
         $bookmarksChart = new LaravelChart($bookmarksChartOptions);
 
         $foldersChartOptions = [
-            'chart_title' => 'Folders by days',
+            'chart_title' => 'New folders by days',
             'chart_type' => 'line',
             'report_type' => 'group_by_date',
             'model' => 'App\Models\Folder',
@@ -57,11 +57,12 @@ class AdminController extends Controller
         $usersChart = new LaravelChart($usersChartOptions);
 
         $tagsChartOptions = [
-            'chart_title' => 'Tags name',
-            'chart_type' => 'pie',
-            'report_type' => 'group_by_string',
+            'chart_title' => 'New tags by days',
+            'chart_type' => 'line',
+            'report_type' => 'group_by_date',
             'model' => 'App\Models\Tag',
-            'group_by_field' => 'name',
+            'group_by_field' => 'created_at',
+            'group_by_period' => 'day',
             'chart_color' => '232, 121, 249'
         ];
         $tagsChart = new LaravelChart($tagsChartOptions);
