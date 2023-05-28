@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for bm-manager on 2023-05-15T10:03:20+07:00
+# fly.toml app configuration file generated for bookmark-manager on 2023-05-16T22:09:01+07:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "bm-manager"
+app = "bookmark-manager"
 kill_signal = "SIGINT"
 kill_timeout = 5
 primary_region = "sin"
@@ -16,12 +16,13 @@ processes = []
 
 [env]
   APP_ENV = "production"
+  DB_CONNECTION = "mysql"
+  DB_DATABASE = "bookmark-manager"
+  DB_HOST = "solitary-wildflower-380.interna"
+  DB_PORT = "3306"
   LOG_CHANNEL = "stderr"
   LOG_LEVEL = "info"
   LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
-  DB_CONNECTION = "mysql"
-  DB_HOST = "black-hill-7143.internal"
-  DB_DATABASE = "bookmark_manager"
 
 [deploy]
   release_command = "php /var/www/html/artisan migrate --force"
