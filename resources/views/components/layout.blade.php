@@ -21,7 +21,7 @@
 <body class="text-gray-950 font-nunito relative h-full selection:bg-teal-600 selection:text-gray-50">
 
     <div class="container max-w-4xl py-16 flex items-center justify-between gap-4">
-        <a class="text-4xl font-black hover:underline bg-teal-500 text-gray-50 rounded px-4 py-2"
+        <a class="text-4xl font-black hover:underline hover:scale-125 hover:rotate-6 bg-teal-500 text-gray-50 rounded px-4 py-2 transition-all"
             href="@auth {{ route('bookmarks.index') }} @else {{ route('home') }} @endauth">
             B
         </a>
@@ -33,6 +33,9 @@
             @endguest
 
             @auth
+                @if (auth()->user()->role == 'admin')
+                    <a href="{{ route('admin.index') }}" class="hover:underline">Admin</a>
+                @endif
                 <a href="{{ route('profiles.show', ['user' => auth()->user()]) }}" class="hover:underline">Profile</a>
                 <form action="/logout" method="post">
                     @csrf

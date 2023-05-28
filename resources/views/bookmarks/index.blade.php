@@ -10,13 +10,13 @@
         </form>
 
         <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <button class="flex items-center md:justify-center gap-2 bg-gray-100 p-3 rounded-md hover:bg-gray-200 transition-all" x-on:click="newBookmarkFormOpen = !newBookmarkFormOpen">
+            <button class="flex items-center md:justify-center gap-2 bg-gray-100 p-2 rounded-md hover:bg-gray-200 transition-all" x-on:click="newBookmarkFormOpen = !newBookmarkFormOpen">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
                     <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
                 </svg>
                 Add new bookmark
             </button>
-            <button class="flex items-center md:justify-center gap-2 bg-gray-100 p-3 rounded-md hover:bg-gray-200 transition-all" x-on:click="newFolderFormOpen = !newFolderFormOpen">
+            <button class="flex items-center md:justify-center gap-2 bg-gray-100 p-2 rounded-md hover:bg-gray-200 transition-all" x-on:click="newFolderFormOpen = !newFolderFormOpen">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
                     <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
                 </svg>
@@ -157,6 +157,12 @@
     </div>
 
     <div class="my-8">
+        <div class="grid grid-cols-3 bg-gray-100 rounded-md p-1">
+            <a class="text-center p-1 rounded @if (!str_contains(url()->full(), 'filter=bookmarks') && !str_contains(url()->full(), 'filter=folders')) bg-white shadow @endif" href="{{ route('bookmarks.index') }}">All</a>
+            <a class="text-center p-1 rounded @if (str_contains(url()->full(), 'filter=bookmarks')) bg-white shadow @endif" href="?filter=bookmarks">Bookmarks</a>
+            <a class="text-center p-1 rounded @if (str_contains(url()->full(), 'filter=folders')) bg-white shadow @endif" href="?filter=folders">Folders</a>
+        </div>
+
         <div class="flex items-center justify-end py-4 relative" x-data="{ open: false }">
             <button class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-md" x-on:click="open = ! open">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -165,29 +171,57 @@
                 <span>Sort</span>
             </button>
 
-            <div x-show="open" x-cloak x-transition x-on:click.outside="open = false" class="absolute isolate z-50 right-0 top-16 flex flex-col bg-white shadow border border-gray-300 rounded">
-                <a class="py-2 px-4 hover:underline" href="?sort=name_asc">Name: A - Z</a>
-                <a class="py-2 px-4 hover:underline" href="?sort=name_desc">Name: Z - A</a>
-                <a class="py-2 px-4 hover:underline" href="?sort=created_latest">Created at: Latest</a>
-                <a class="py-2 px-4 hover:underline" href="?sort=created_oldest">Created at: Oldest</a>
+            <div x-show="open" x-cloak x-transition x-on:click.outside="open = false" class="absolute isolate z-50 right-0 top-16 flex flex-col bg-white border border-gray-300 rounded">
+                <a class="flex items-center gap-2 py-2 px-4 hover:underline" href="{{ route('bookmarks.index', ['sort' => 'name_asc', 'filter' => request()->query('filter')]) }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 @if (str_contains(url()->full(), 'sort=name_asc')) visible @else invisible @endif">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Name: Ascending
+                </a>
+                <a class="flex items-center gap-2 py-2 px-4 hover:underline" href="{{ route('bookmarks.index', ['sort' => 'name_desc', 'filter' => request()->query('filter')]) }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 @if (str_contains(url()->full(), 'sort=name_desc')) visible @else invisible @endif">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Name: Descending
+                </a>
+                <a class="flex items-center gap-2 py-2 px-4 hover:underline" href="{{ route('bookmarks.index', ['sort' => 'created_latest', 'filter' => request()->query('filter')]) }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 @if (str_contains(url()->full(), 'sort=created_latest')) visible @else invisible @endif">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Created: Latest
+                </a>
+                <a class="flex items-center gap-2 py-2 px-4 hover:underline" href="{{ route('bookmarks.index', ['sort' => 'created_oldest', 'filter' => request()->query('filter')]) }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 @if (str_contains(url()->full(), 'sort=created_oldest')) visible @else invisible @endif">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Created: Oldest
+                </a>
             </div>
         </div>
 
+        <div class="mb-2 flex justify-between text-gray-500">
+            <span class="pl-7">Name</span>
+            <span>Created</span>
+        </div>
         <div class="divide-y divide-gray-200">
-            @foreach ($folders as $folder)
-                <div x-data="{ expanded: false }">
-                    <x-folder :folder="$folder" x-on:click="expanded = ! expanded" />
-                    <div class="pl-8" x-show="expanded" x-collapse>
-                        @foreach ($folder->bookmarks as $bookmark)
-                            <x-bookmark :bookmark="$bookmark" />
-                        @endforeach
+            @isset($folders)
+                @foreach ($folders as $folder)
+                    <div x-data="{ expanded: false }">
+                        <x-folder :folder="$folder" x-on:click="expanded = ! expanded" />
+                        <div class="pl-8" x-show="expanded" x-collapse>
+                            @foreach ($folder->bookmarks as $bookmark)
+                                <x-bookmark :bookmark="$bookmark" />
+                            @endforeach
+                        </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            @endisset
 
-            @foreach ($bookmarks as $bookmark)
-                <x-bookmark :bookmark="$bookmark" />
-            @endforeach
+            @isset($bookmarks)
+                @foreach ($bookmarks as $bookmark)
+                    <x-bookmark :bookmark="$bookmark" />
+                @endforeach
+            @endisset
         </div>
     </div>
 
