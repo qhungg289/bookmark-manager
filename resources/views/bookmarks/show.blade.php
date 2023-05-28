@@ -14,8 +14,8 @@
         <span class="font-medium">Tags:</span>
         <div class="flex gap-1 flex-wrap w-full">
             @foreach ($bookmark->tags as $tag)
-                <a href="{{ route('tags.show', ['tag' => $tag]) }}" class="py-1 px-4 flex items-center rounded-full bg-teal-600 text-gray-50 hover:underline">
-                    {{ $tag->name }}
+                <a href="{{ route('tags.show', ['tag' => $tag]) }}" class="py-1 px-4 flex items-center rounded-full bg-gray-300 hover:underline">
+                    #{{ $tag->name }}
                 </a>
             @endforeach
         </div>

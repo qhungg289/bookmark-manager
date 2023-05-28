@@ -48,7 +48,7 @@
                 <input type="hidden" name="tags" x-bind:value="tagsFormValue">
                 <div class="mt-2 flex gap-1 flex-wrap w-full">
                     <template x-for="tag in tagsDisplay">
-                        <span class="py-1 px-4 flex items-center gap-1 text-sm rounded-full bg-teal-600 text-gray-50">
+                        <span class="py-1 px-4 flex items-center gap-1 text-sm rounded-full bg-gray-300">
                             <span x-text="tag"></span>
                             <button x-on:click.prevent="removeTag(tag)">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
