@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\FolderController;
@@ -33,11 +34,24 @@ Route::middleware('auth')->group(function () {
     Route::resource('/tags', TagController::class)->only(['show']);
     Route::get('/search', SearchController::class)->name('search');
 
-    Route::controller(ProfileController::class)->group(function () {
-        Route::get('/profile/{user}', 'show')->name('profiles.show');
-        Route::get('/profile/{user}/edit', 'edit')->name('profiles.edit');
-        Route::put('/profile/{user}/update', 'update')->name('profiles.update');
-        Route::get('/profile/{user}/change-password', 'editPassword')->name('profiles.edit-password');
-        Route::put('/profile/{user}/change-password', 'updatePassword')->name('profiles.update-password');
+    Route::prefix('/profile')->group(function () {
+        Route::controller(ProfileController::class)->group(function () {
+            Route::get('/{user}', 'show')->name('profiles.show');
+            Route::get('/{user}/edit', 'edit')->name('profiles.edit');
+            Route::put('/{user}/update', 'update')->name('profiles.update');
+            Route::get('/{user}/change-password', 'editPassword')->name('profiles.edit-password');
+            Route::put('/{user}/change-password', 'updatePassword')->name('profiles.update-password');
+            Route::delete('/{user}/delete', 'deleteProfile')->name('profiles.delete');
+        });
+    });
+
+    Route::prefix('/admin')->group(function () {
+        Route::controller(AdminController::class)->group(function () {
+            Route::get('/', 'index')->name('admin.index');
+            Route::get('/bookmarks', 'getAllBookmarks')->name('admin.bookmarks');
+            Route::get('/folders', 'getAllFolders')->name('admin.folders');
+            Route::get('/users', 'getAllUsers')->name('admin.users');
+            Route::get('/tags', 'getAllTags')->name('admin.tags');
+        });
     });
 });
