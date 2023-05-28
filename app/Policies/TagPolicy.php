@@ -21,7 +21,7 @@ class TagPolicy
      */
     public function view(User $user, Tag $tag): bool
     {
-        return $user->id == $tag->user_id;
+        return $user->id == $tag->user_id || $user->role == 'admin';
     }
 
     /**

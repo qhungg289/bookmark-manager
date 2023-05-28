@@ -21,7 +21,7 @@ class BookmarkPolicy
      */
     public function view(User $user, Bookmark $bookmark): bool
     {
-        return $user->id == $bookmark->user_id || $bookmark->folder->is_public;
+        return $user->id == $bookmark->user_id || $bookmark->folder?->is_public || $user->role == 'admin';
     }
 
     /**
@@ -37,7 +37,7 @@ class BookmarkPolicy
      */
     public function update(User $user, Bookmark $bookmark): bool
     {
-        return $user->id == $bookmark->user_id;
+        return $user->id == $bookmark->user_id || $user->role == 'admin';
     }
 
     /**
@@ -45,7 +45,7 @@ class BookmarkPolicy
      */
     public function delete(User $user, Bookmark $bookmark): bool
     {
-        return $user->id == $bookmark->user_id;
+        return $user->id == $bookmark->user_id || $user->role == 'admin';
     }
 
     /**
