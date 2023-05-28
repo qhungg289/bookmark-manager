@@ -16,8 +16,10 @@ class SearchController extends Controller
         if (isset($searchString)) {
             $bookmarks = $request->user()
                 ->bookmarks()
-                ->where('url', 'like', "%$searchString%")
-                ->orWhere('name', 'like', "%$searchString%")
+                ->where(function ($query) use ($searchString) {
+                    $query->where('url', 'like', "%$searchString%")
+                        ->orWhere('name', 'like', "%$searchString%");
+                })
                 ->get();
 
             $folders = $request->user()
