@@ -26,7 +26,7 @@
 
         <template x-teleport="body">
             <div x-transition.opacity x-show="newBookmarkFormOpen" x-on:click="newBookmarkFormOpen = false" class="fixed inset-0 bg-gray-900/50 flex items-center justify-center">
-                <div x-transition.scale x-show="newBookmarkFormOpen" x-trap="newBookmarkFormOpen" x-on:click.stop="" class="bg-white w-full max-w-4xl m-4 rounded-lg border border-gray-300 p-6">
+                <div x-trap="newBookmarkFormOpen" x-on:click.stop="" class="bg-white w-full max-w-4xl m-4 rounded-lg border border-gray-300 p-6">
                     <p class="text-2xl font-bold">Add new bookmark</p>
                     <form action="{{ route('bookmarks.store') }}" method="POST" class="mt-8 flex flex-col gap-4">
                         @csrf
@@ -96,7 +96,7 @@
 
         <template x-teleport="body">
             <div x-transition.opacity x-show="newFolderFormOpen" x-on:click="newFolderFormOpen = false" class="fixed inset-0 bg-gray-900/50 flex items-center justify-center">
-                <div x-transition.scale x-show="newFolderFormOpen" x-trap="newFolderFormOpen" x-on:click.stop="" class="bg-white w-full max-w-4xl m-4 rounded-lg border border-gray-300 p-6">
+                <div x-trap="newFolderFormOpen" x-on:click.stop="" class="bg-white w-full max-w-4xl m-4 rounded-lg border border-gray-300 p-6">
                     <p class="text-2xl font-bold">Add new folder</p>
                     <form action="{{ route('folders.store') }}" method="post" class="mt-8 flex flex-col gap-4">
                         @csrf
@@ -208,7 +208,7 @@
                 @foreach ($folders as $folder)
                     <div x-data="{ expanded: false }">
                         <x-folder :folder="$folder" x-on:click="expanded = ! expanded" />
-                        <div class="pl-8" x-show="expanded" x-collapse>
+                        <div class="pl-8" x-show="expanded" x-collapse x-cloak>
                             @foreach ($folder->bookmarks as $bookmark)
                                 <x-bookmark :bookmark="$bookmark" />
                             @endforeach
