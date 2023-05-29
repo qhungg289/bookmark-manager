@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
@@ -33,6 +34,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/folders', FolderController::class)->except(['index', 'create']);
     Route::resource('/tags', TagController::class)->only(['show']);
     Route::get('/search', SearchController::class)->name('search');
+
+    Route::resource('/comments', CommentController::class)->only(['store', 'edit', 'update', 'destroy']);
 
     Route::prefix('/profile')->group(function () {
         Route::controller(ProfileController::class)->group(function () {

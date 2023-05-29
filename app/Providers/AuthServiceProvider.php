@@ -5,9 +5,11 @@ namespace App\Providers;
 // use Illuminate\Support\Facades\Gate;
 
 use App\Models\Bookmark;
+use App\Models\Comment;
 use App\Models\Folder;
 use App\Models\User;
 use App\Policies\BookmarkPolicy;
+use App\Policies\CommentPolicy;
 use App\Policies\FolderPolicy;
 use App\Policies\TagPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -24,6 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         Folder::class => FolderPolicy::class,
         Bookmark::class => BookmarkPolicy::class,
         Tag::class => TagPolicy::class,
+        Comment::class => CommentPolicy::class,
     ];
 
     /**

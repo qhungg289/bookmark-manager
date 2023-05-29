@@ -5,24 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Folder extends Model
+class Comment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'is_public'];
+    protected $fillable = ['content', 'folder_id'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function bookmarks()
+    public function folder()
     {
-        return $this->hasMany(Bookmark::class);
-    }
-
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
+        return $this->belongsTo(Folder::class);
     }
 }

@@ -37,4 +37,46 @@
             <x-bookmark :bookmark="$bookmark" />
         @endforeach
     </div>
+
+    <div class="mt-8">
+        <form action="{{ route('comments.store') }}" method="post" class="flex flex-col gap-3">
+            @csrf
+
+            <input type="hidden" name="folder_id" value="{{ $folder->id }}">
+
+            <div class="flex flex-col">
+                <x-forms.input type="text" name="comment" id="comment" placeholder="Comment..." value="{{ old('comment') }}" />
+                @error('comment')
+                    <small class="mt-1 text-sm text-rose-600">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <button class="w-fit bg-teal-600 text-gray-50 px-6 py-3 rounded-md hover:opacity-80 transition-all" type="submit">Send</button>
+        </form>
+
+        <div class="mt-4 space-y-2">
+            @foreach ($folder->comments as $comment)
+                <div class="p-4 border border-gray-300 rounded-md space-y-4">
+                    <div class="flex gap-2 text-sm">
+                        <a class="hover:underline" href="{{ route('profiles.show', ['user' => $comment->user]) }}">{{ $comment->user->name }}</a>
+                        <span class="text-gray-400">{{ Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</span>
+                        @can('update', $comment)
+                            <a href="{{ route('comments.edit', ['comment' => $comment]) }}">Edit</a>
+                        @endcan
+                        @can('delete', $comment)
+                            <form action="{{ route('comments.destroy', ['comment' => $comment]) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit">Delete</button>
+                            </form>
+                        @endcan
+                    </div>
+                    <div class="text-lg border-l-2 border-gray-300 pl-4">
+                        {{ $comment->content }}
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
 </x-layout>

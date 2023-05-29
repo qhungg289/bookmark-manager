@@ -49,7 +49,7 @@ class FolderController extends Controller
     {
         $this->authorize('view', $folder);
 
-        $folder->load('bookmarks', 'bookmarks.tags');
+        $folder->load('bookmarks', 'comments', 'comments.user');
 
         return view('folders.show', [
             'folder' => $folder
