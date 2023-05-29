@@ -73,9 +73,9 @@ class BookmarkController extends Controller
         if (!isset($name)) {
             $response = Http::withOptions(['verify' => false])->get($validated['url']);
             $e = libxml_use_internal_errors(true);
-            $doc->loadHTML($response->body());
+            $doc->loadHTML('<?xml encoding="UTF-8">' . $response->body());
             libxml_use_internal_errors($e);
-            $name = $doc->getElementsByTagName('title')->item(0)->nodeValue;
+            $name = $doc->getElementsByTagName('title')->item(0)->textContent;
         }
 
         $bookmark = $request->user()->bookmarks()->create([
@@ -152,9 +152,9 @@ class BookmarkController extends Controller
         if (!isset($name)) {
             $response = Http::withOptions(['verify' => false])->get($validated['url']);
             $e = libxml_use_internal_errors(true);
-            $doc->loadHTML($response->body());
+            $doc->loadHTML('<?xml encoding="UTF-8">' . $response->body());
             libxml_use_internal_errors($e);
-            $name = $doc->getElementsByTagName('title')->item(0)->nodeValue;
+            $name = $doc->getElementsByTagName('title')->item(0)->textContent;
         }
 
         $bookmark->name = $name;
