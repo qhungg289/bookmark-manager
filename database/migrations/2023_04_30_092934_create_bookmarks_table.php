@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('folder_id')->nullable()->constrained()->cascadeOnDelete();
+
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
         });
     }
 
